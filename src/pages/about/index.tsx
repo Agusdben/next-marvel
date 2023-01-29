@@ -3,7 +3,7 @@ import React from 'react'
 
 const About = () => {
   return (
-    <AppLayout>
+    <AppLayout headTitle='About | Next Marvel'>
       <h1>ABOUT</h1>
     </AppLayout>
   )
