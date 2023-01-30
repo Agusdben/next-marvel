@@ -16,9 +16,11 @@ const AppLayout = ({ children, headTitle }: Props) => {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='flex flex-col gap-10 min-h-screen max-w-screen'>
+      <div className='flex flex-col gap-10 min-h-screen max-w-screen '>
         <AppHeader />
-        <main className='flex-1'>{children}</main>
+        <main className='flex-1 p-2 m-auto flex flex-col gap-4'>
+          {children}
+        </main>
         <footer>FOOTER</footer>
       </div>
     </>

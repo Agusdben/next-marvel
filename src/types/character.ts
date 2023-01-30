@@ -1,6 +1,12 @@
 import { Url } from 'url'
 import { ApiData, ApiRoot, Sumary, Thumbnail } from '.'
 
+export interface CharacterUriParams {
+  limit: number
+  offset: number
+  orderBy: 'name' | 'modified' | '-name' | '-modified'
+}
+
 export interface ComicItem {
   resourceURI: string
   name: string
