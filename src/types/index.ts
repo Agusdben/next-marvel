@@ -30,7 +30,11 @@ export interface ApiRoot {
 }
 
 export interface Sumary {
-  available: string
-  returned: string
+  available: number
+  returned: number
   collectionURI: string
+}
+
+export interface PromiseWithCancel<T> extends Promise<T> {
+  cancel: () => void
 }
