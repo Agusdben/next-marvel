@@ -34,7 +34,3 @@ export interface Sumary {
   returned: number
   collectionURI: string
 }
-
-export interface PromiseWithCancel<T> extends Promise<T> {
-  cancel: () => void
-}

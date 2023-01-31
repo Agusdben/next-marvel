@@ -1,4 +1,3 @@
-import { PromiseWithCancel } from '@/types'
 import { ApiCharacter, CharacterUriParams } from '@/types/character'
 
 const env = {
@@ -14,9 +13,9 @@ const CHARACTERS_URL = `${env.API_URL}/characters`
 const CONFIG = `ts=${env.API_TS}&apikey=${env.API_KEY}&hash=${env.API_HASH}`
 
 export const getCharacters = ({
-  limit = 100,
-  offset = 0,
-  orderBy = 'name'
+  limit,
+  offset,
+  orderBy
 }: CharacterUriParams): Promise<ApiCharacter> => {
   const URL = `${CHARACTERS_URL}?${CONFIG}&offset=${
     offset * limit
@@ -27,5 +26,12 @@ export const getCharacters = ({
 
 export const getCharacter = (name: string): Promise<ApiCharacter> => {
   const URL = `${CHARACTERS_URL}?${CONFIG}&name=${name}`
+  return fetch(URL).then(res => res.json())
+}
+
+export const searchCharacter = (
+  nameStartsWith: string | string[]
+): Promise<ApiCharacter> => {
+  const URL = `${CHARACTERS_URL}?${CONFIG}&nameStartsWith=${nameStartsWith}`
   return fetch(URL).then(res => res.json())
 }

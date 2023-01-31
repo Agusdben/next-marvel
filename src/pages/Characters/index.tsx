@@ -1,6 +1,6 @@
 import AppLayout from '@/components/AppLayout'
-import CharacterCard from '@/components/CharacterCard'
-import CharacterForm from '@/components/CharacterForm'
+import CharactersList from '@/components/CharactersList'
+import SearchCharacterForm from '@/components/SearchCharacterForm'
 import { CHARACTER_URL_PROPS } from '@/constants/characters'
 import { getCharacters } from '@/services/Characters'
 import { Character, CharacterUriParams } from '@/types/character'
@@ -50,12 +50,10 @@ const Characters = ({ characters, params }: Props) => {
       headTitle={`characters results: ${state.characters.length} | Next Marvel`}
     >
       <section>
-        <CharacterForm />
+        <SearchCharacterForm />
       </section>
-      <section className='grid gap-y-10 gap-x-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 content-center'>
-        {state.characters.map(c => (
-          <CharacterCard character={c} key={c.id} />
-        ))}
+      <section>
+        <CharactersList characters={state.characters} />
       </section>
       <button disabled={!hasMore} onClick={handleLoadMore}>
         Load more

@@ -1,11 +1,9 @@
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
-interface Props {
-  onSubmit: (keyword: string) => void
-}
-
-const CharacterForm = ({ onSubmit }: Props) => {
+const SearchCharacterForm = () => {
   const [values, setValues] = useState({ name: '' })
+  const router = useRouter()
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValues(lastValues => {
@@ -18,7 +16,7 @@ const CharacterForm = ({ onSubmit }: Props) => {
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    onSubmit(values.name)
+    router.push(`/characters/search/${values.name}`)
   }
 
   return (
@@ -26,6 +24,7 @@ const CharacterForm = ({ onSubmit }: Props) => {
       <input
         type='text'
         name='name'
+        required
         placeholder='Hero name...'
         value={values.name}
         onChange={handleOnChange}
@@ -35,4 +34,4 @@ const CharacterForm = ({ onSubmit }: Props) => {
   )
 }
 
-export default CharacterForm
+export default SearchCharacterForm
