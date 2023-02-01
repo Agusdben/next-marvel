@@ -1,22 +1,33 @@
 import AppLayout from '@/components/AppLayout'
 import CharactersList from '@/components/CharactersList'
-import SearchCharacterForm from '@/components/SearchCharacterForm'
+import SearchForm from '@/components/SearchForm'
 import { CHARACTER_URL_PROPS } from '@/constants/characters'
+import useSearchRoute from '@/hooks/useSearchRoute'
 import { getCharacters } from '@/services/Characters'
 import { Character, CharacterUriParams } from '@/types/character'
 import { GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 interface Props {
   characters: Character[]
-  params: CharacterUriParams
 }
 
-const Characters = ({ characters, params }: Props) => {
-  const [state, setState] = useState<Props>({
+interface States {
+  state: {
+    characters: Character[]
+    params: CharacterUriParams
+  }
+}
+
+const Characters = ({ characters }: Props) => {
+  const { handleSearch } = useSearchRoute({ baseRoute: '/characters/search' })
+
+  const [state, setState] = useState<States['state']>({
     characters,
-    params
+    params: CHARACTER_URL_PROPS
   })
+
   const [hasMore, setHasMore] = useState<boolean>(true)
 
   const handleLoadMore = async () => {
@@ -50,7 +61,7 @@ const Characters = ({ characters, params }: Props) => {
       headTitle={`characters results: ${state.characters.length} | Next Marvel`}
     >
       <section>
-        <SearchCharacterForm />
+        <SearchForm onSubmit={handleSearch} />
       </section>
       <section>
         <CharactersList characters={state.characters} />

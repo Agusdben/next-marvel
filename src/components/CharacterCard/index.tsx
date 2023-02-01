@@ -10,15 +10,15 @@ interface Props {
 
 const CharacterCard = ({ character }: Props) => {
   return (
-    <article className='relative w-[300px] h-[400px] overflow-hidden rounded-md text-white'>
+    <article className='relative w-[300px] h-[400px] overflow-hidden rounded-md text-white m-auto'>
       <Image
-        className='w-full h-full object-cover object-left absolute top-0 left-0 -z-10'
+        className='w-auto h-full object-cover object-left absolute top-0 left-0 -z-10'
         alt={`Marvel character named ${character.name}`}
         src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
         width={320}
         height={400}
       />
-      <div className='p-2 bg-black opacity-70 h-full flex flex-col'>
+      <div className='p-2 bg-black bg-opacity-70 h-full flex flex-col'>
         <div className='flex flex-col gap-4 items-start flex-1'>
           <p className='font-bold px-2 text-left text-xl'>{character.name}</p>
           <div>
@@ -26,7 +26,7 @@ const CharacterCard = ({ character }: Props) => {
           </div>
         </div>
         <Link
-          className='ml-auto border-2 px-4 py-2 rounded-3xl'
+          className='ml-auto border-2 px-4 py-2 rounded-3xl font-bold'
           href={`/characters/${character.name}`}
         >
           Details 📝
@@ -36,4 +36,4 @@ const CharacterCard = ({ character }: Props) => {
   )
 }
 
-export default CharacterCard
+export default React.memo(CharacterCard)
