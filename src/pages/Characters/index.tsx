@@ -6,7 +6,6 @@ import useSearchRoute from '@/hooks/useSearchRoute'
 import { getCharacters } from '@/services/Characters'
 import { Character, CharacterUriParams } from '@/types/character'
 import { GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 
 interface Props {
