@@ -20,18 +20,18 @@ const SearchForm = ({ onSubmit }: Props) => {
   return (
     <form
       onSubmit={handleOnSubmit}
-      className='flex w-full rounded-md overflow-hidden border-2 border-black'
+      className='flex w-full rounded-md overflow-hidden border-2 border-primary'
     >
       <input
-        className='flex-1 px-3'
+        className='flex-1 px-3 bg-transparent'
         type='text'
         name='name'
         required
-        placeholder='Search here'
+        placeholder='Search here...'
         value={keyword}
         onChange={handleOnChange}
       />
-      <button type='submit' className='p-2 bg-black'>
+      <button type='submit' className='p-2 bg-primary'>
         🔍
       </button>
     </form>

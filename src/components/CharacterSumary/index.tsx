@@ -12,14 +12,14 @@ const CharacterSumary = ({ character }: Props) => {
     events: events.available
   }
   return (
-    <>
+    <div>
       {Object.entries(sumary).map(([key, value]) => (
         <div key={key} className='p-2'>
           <p>{key}</p>
           <span>{value}</span>
         </div>
       ))}
-    </>
+    </div>
   )
 }
 

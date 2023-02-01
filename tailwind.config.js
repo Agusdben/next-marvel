@@ -9,7 +9,15 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+        black: '#0f0f0f',
+        white: '#fafafa',
+        primary: '#cfa800',
+        secondary: '#0096FF',
+        background: '#18181B'
+      }
+    }
   },
-  plugins: []
+  plugins: [require('tailwindcss-dotted-background')]
 }

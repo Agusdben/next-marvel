@@ -2,6 +2,7 @@ import { Character } from '@/types/character'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import ButtonLink from '../ButtonLink'
 
 interface Props {
   characters: Character[]
@@ -13,17 +14,14 @@ const HomeCharacters = ({ characters }: Props) => {
       {characters.map(c => (
         <div
           key={c.name}
-          className='p-2 relative bg-black bg-opacity-70 text-white font-bold flex flex-col justify-between [&_a]:hidden [&_a]:hover:block h-20 w-full overflow-hidden hover:h-96 hover:transition-all md:h-96 md:hover:scale-110'
+          className='relative w-full overflow-hidden [&_a]:hidden [&_a]:hover:block h-20 hover:h-96 hover:transition-transform md:h-96 md:hover:scale-110'
         >
-          <p className='text-2xl  text-left mr-auto'>{c.name}</p>
-          <Link
-            className='ml-auto rounded-full border-2 px-4'
-            href={`/characters/${c.name}`}
-          >
-            More info
-          </Link>
+          <div className='p-2 relative z-10 h-full text-white bg-black bg-opacity-70 flex flex-col justify-between items-center hover:bg-opacity-0'>
+            <p className='text-2xl text-left mr-auto'>{c.name}</p>
+            <ButtonLink text='More info' href={`/characters/${c.name}`} />
+          </div>
           <Image
-            className='absolute top-0 left-0 -z-10 h-full w-full object-cover object-center'
+            className='absolute top-0 left-0 h-full w-full object-cover object-center'
             src={c.thumbnail.path + '.' + c.thumbnail.extension}
             alt={`Marvel character ${c.name}`}
             width={300}

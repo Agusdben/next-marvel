@@ -1,4 +1,5 @@
 import AppLayout from '@/components/AppLayout'
+import Button from '@/components/Button'
 import CharactersList from '@/components/CharactersList'
 import SearchForm from '@/components/SearchForm'
 import { CHARACTER_URL_PROPS } from '@/constants/characters'
@@ -65,9 +66,12 @@ const Characters = ({ characters }: Props) => {
       <section>
         <CharactersList characters={state.characters} />
       </section>
-      <button disabled={!hasMore} onClick={handleLoadMore}>
-        Load more
-      </button>
+      <Button
+        disabled={!hasMore}
+        onClick={handleLoadMore}
+        value='Load more'
+        type='button'
+      ></Button>
     </AppLayout>
   )
 }
