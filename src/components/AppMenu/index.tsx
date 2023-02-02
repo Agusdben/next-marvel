@@ -1,32 +1,6 @@
+import { ROUTES } from '@/constants/routes'
 import Link from 'next/link'
 import React from 'react'
-
-const PagesLinks = [
-  {
-    href: '/',
-    value: 'Home'
-  },
-  {
-    href: '/characters',
-    value: 'Characters'
-  },
-  {
-    href: '#',
-    value: 'Comics'
-  },
-  {
-    href: '#',
-    value: 'Series'
-  },
-  {
-    href: '#',
-    value: 'Stories'
-  },
-  {
-    href: '#',
-    value: 'Events'
-  }
-]
 
 interface Props {
   onClose: () => void
@@ -39,7 +13,7 @@ const AppMenu = ({ onClose }: Props) => {
         <li className='ml-auto text-3xl p-2'>
           <button onClick={onClose}>&#215;</button>
         </li>
-        {PagesLinks.map(l => (
+        {ROUTES.map(l => (
           <li
             key={l.value}
             className='w-full max-w-lg m-auto  hover:line-through hover:bg-secondary transition-colors md:text-3xl'

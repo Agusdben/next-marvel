@@ -1,9 +1,8 @@
 import { CharacterUriParams } from '@/types/character'
 
-export const CHARACTER_URL_PROPS: CharacterUriParams = {
+export const CHARACTER_URL_PARAMS: CharacterUriParams = {
   offset: 0,
-  limit: 50,
-  orderBy: 'name'
+  limit: 50
 }
 
 export const HOME_CHARACTERS_TO_SHOW = [

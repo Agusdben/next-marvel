@@ -1,17 +1,23 @@
 import AppLayout from '@/components/AppLayout'
-import CharacterCard from '@/components/CharacterCard'
-import { CHARACTER_URL_PROPS } from '@/constants/characters'
-import { getCharacter, getCharacters } from '@/services/Characters'
+import ComicsSumary from '@/components/ComicsSumary'
+import { CHARACTER_URL_PARAMS } from '@/constants/characters'
+import {
+  getCharacter,
+  getCharacters,
+  getComicsOfCharacter
+} from '@/services/Characters'
 import { Character } from '@/types/character'
+import { Comic } from '@/types/comics'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
 interface Props {
   character: Character
+  comics: Comic[]
 }
 
-const CharacterPage = ({ character }: Props) => {
+const CharacterPage = ({ character, comics }: Props) => {
   return (
     <AppLayout headTitle={`${character.name} | Next Marvel`}>
       <section className='text-white pb-14 flex flex-col mx-auto items-center justify-center gap-4 md:gap-6 md:items-stretch md:flex-row md:justify-start md:m-0 '>
@@ -39,15 +45,18 @@ const CharacterPage = ({ character }: Props) => {
         </article>
       </section>
 
-      <section className='h-96' id='comics'>
-        <h2>Comics</h2>
+      <section className='min-h-[300px] flex flex-col gap-4' id='comics'>
+        <h2 className='text-3xl'>Comics</h2>
+        <article className='h-full '>
+          <ComicsSumary comics={comics} />
+        </article>
       </section>
 
-      <section className='h-96' id='series'>
+      <section className='min-h-[300px]' id='series'>
         <h2>Series</h2>
       </section>
 
-      <section className='h-96' id='events'>
+      <section className='min-h-[300px]' id='events'>
         <h2>Events</h2>
       </section>
     </AppLayout>
@@ -57,7 +66,7 @@ const CharacterPage = ({ character }: Props) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const {
     data: { results }
-  } = await getCharacters(CHARACTER_URL_PROPS)
+  } = await getCharacters(CHARACTER_URL_PARAMS)
   const pathsWithParams = results.map(character => ({
     params: { name: String(character.name) }
   }))
@@ -78,10 +87,17 @@ export const getStaticProps: GetStaticProps = async context => {
       notFound: true
     }
   }
+  const idCharacter = data.results[0].id
+
+  const comicsResponse = await getComicsOfCharacter(
+    idCharacter,
+    CHARACTER_URL_PARAMS
+  )
 
   return {
     props: {
-      character: data.results[0]
+      character: data.results[0],
+      comics: comicsResponse.data.results
     }
   }
 }

@@ -4,7 +4,6 @@ import { ApiData, ApiRoot, Sumary, Thumbnail } from '.'
 export interface CharacterUriParams {
   limit: number
   offset: number
-  orderBy: 'name' | 'modified' | '-name' | '-modified'
 }
 
 export interface ComicItem {
@@ -45,7 +44,7 @@ export interface CharacterSeries extends Sumary {
 }
 
 export interface Character {
-  id: string
+  id: number
   name: string
   description: string | null
   modified: string

@@ -34,3 +34,9 @@ export interface Sumary {
   returned: number
   collectionURI: string
 }
+
+export interface SvgProps {
+  width: number
+  height: number
+  fill?: string
+}
