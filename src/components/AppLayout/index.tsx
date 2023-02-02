@@ -16,7 +16,7 @@ const AppLayout = ({ children, headTitle }: Props) => {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='flex font-bold text-primary flex-col min-h-screen max-w-screen overflow-x-hidden bg-dotted-spacing-10 bg-background bg-dotted-black bg-fixed'>
+      <div className='relative flex font-bold text-primary flex-col min-h-screen max-w-screen bg-dotted-spacing-10 bg-background bg-dotted-black bg-fixed'>
         <AppHeader />
         <main className='flex-1 p-2 m-auto flex flex-col gap-4 max-w-7xl w-full'>
           {children}

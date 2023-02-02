@@ -1,48 +1,29 @@
-import Link from 'next/link'
-import React from 'react'
-
-const PagesLinks = [
-  {
-    href: '/',
-    value: 'Home'
-  },
-  {
-    href: '/characters',
-    value: 'Characters'
-  },
-  {
-    href: '#',
-    value: 'Comics'
-  },
-  {
-    href: '#',
-    value: 'Series'
-  },
-  {
-    href: '#',
-    value: 'Stories'
-  },
-  {
-    href: '#',
-    value: 'Events'
-  }
-]
+import React, { useState } from 'react'
+import AppMenu from '../AppMenu'
 
 const AppHeader = () => {
+  const [toggleMenu, setToggleMenu] = useState<boolean>(false)
+
+  const onClose = () => {
+    setToggleMenu(false)
+  }
+
+  const onOpen = () => {
+    setToggleMenu(true)
+  }
+
   return (
-    <header className='flex gap-2 p-6 bg-background text-white'>
-      <nav>
-        <ul className='flex'>
-          {PagesLinks.map(l => (
-            <li
-              key={l.value}
-              className='px-6 py-2 text-primary hover:line-through'
-            >
-              <Link href={l.href}>{l.value}</Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+    <header className='p-6 flex justify-between bg-background text-white sticky top-0 left-0 w-full z-50'>
+      <h1>Next Marvel</h1>
+      <button
+        onClick={onOpen}
+        className='flex flex-col justify-between w-7 [&_div]:w-full [&_div]:h-1 [&_div] [&_div]:bg-white [&_div]:hover:bg-primary'
+      >
+        <div />
+        <div />
+        <div />
+      </button>
+      {toggleMenu && <AppMenu onClose={onClose} />}
     </header>
   )
 }

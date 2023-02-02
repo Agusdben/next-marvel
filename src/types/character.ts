@@ -47,7 +47,7 @@ export interface CharacterSeries extends Sumary {
 export interface Character {
   id: string
   name: string
-  description: string
+  description: string | null
   modified: string
   resourceURI: string
   urls: Url[]
