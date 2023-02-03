@@ -8,6 +8,11 @@ export interface Url {
   url: string
 }
 
+export interface ResourceName {
+  resourceURI: string
+  name: string
+}
+
 export interface Thumbnail {
   path: string
   extension: string
@@ -33,6 +38,14 @@ export interface Sumary {
   available: number
   returned: number
   collectionURI: string
+}
+
+export interface People extends ResourceName {
+  role: string
+}
+
+export interface PeopleSumary extends Sumary {
+  items: People[]
 }
 
 export interface SvgProps {

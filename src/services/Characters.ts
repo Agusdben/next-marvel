@@ -1,5 +1,6 @@
 import { ApiCharacter, CharacterUriParams } from '@/types/character'
 import { ApiComic } from '@/types/comics'
+import { ApiSerie } from '@/types/series'
 import { ENV, AUTH_PARAMS } from '@/utiles/apiConfig'
 
 const CHARACTERS_URL = `${ENV.API_URL}/characters`
@@ -46,6 +47,17 @@ export const getComicsOfCharacter = (
   const calculatedOffset = limit * offset
   const paramsUrl = `offset=${calculatedOffset}&limit=${limit}`
   const URL = `${CHARACTERS_URL}/${id}/comics?${AUTH_PARAMS}&${paramsUrl}`
+  return fetch(URL).then(res => res.json())
+}
+
+export const getSeriesOfCharacter = (
+  id: number,
+  params: CharacterUriParams
+): Promise<ApiSerie> => {
+  const { limit, offset } = params
+  const calculatedOffset = limit * offset
+  const paramsUrl = `offset=${calculatedOffset}&limit=${limit}`
+  const URL = `${CHARACTERS_URL}/${id}/series?${AUTH_PARAMS}&${paramsUrl}`
   console.log(URL)
   return fetch(URL).then(res => res.json())
 }

@@ -1,14 +1,17 @@
-import { ApiData, ApiRoot, Sumary, Thumbnail, Url } from '.'
+import {
+  ApiData,
+  ApiRoot,
+  Sumary,
+  Thumbnail,
+  Url,
+  ResourceName,
+  PeopleSumary
+} from '.'
 
 export interface TextObject {
   type: string
   language: string
   text: string
-}
-
-export interface ResourceName {
-  resourceURI: string
-  name: string
 }
 
 export interface Date {
@@ -19,14 +22,6 @@ export interface Date {
 export interface Price {
   type: string
   price: string
-}
-
-export interface ComicPeople extends ResourceName {
-  role: string
-}
-
-export interface People extends Sumary {
-  items: ComicPeople[]
 }
 
 export interface ComicStorie {
@@ -74,8 +69,8 @@ export interface Comic {
   prices: Price[]
   thumbnail: Thumbnail
   images: Thumbnail[]
-  creators: People
-  characters: People
+  creators: PeopleSumary
+  characters: PeopleSumary
   stories: Stories
   events: Events
 }

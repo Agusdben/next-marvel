@@ -11,10 +11,10 @@ const ComicsSumary = ({ comics }: Props) => {
     () =>
       comics.map(c => {
         const { thumbnail, title } = c
-        const url = thumbnail.path + '.' + thumbnail.extension
+        const src = thumbnail.path + '.' + thumbnail.extension
         const alt = `Marvel comic ${title}`
         return {
-          url,
+          src,
           alt,
           title
         }

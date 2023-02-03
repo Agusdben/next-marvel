@@ -1,13 +1,16 @@
 import AppLayout from '@/components/AppLayout'
 import ComicsSumary from '@/components/ComicsSumary'
+import SeriesSumary from '@/components/SeriesSumary'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import {
   getCharacter,
   getCharacters,
-  getComicsOfCharacter
+  getComicsOfCharacter,
+  getSeriesOfCharacter
 } from '@/services/Characters'
 import { Character } from '@/types/character'
 import { Comic } from '@/types/comics'
+import { Serie } from '@/types/series'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -15,9 +18,10 @@ import Link from 'next/link'
 interface Props {
   character: Character
   comics: Comic[]
+  series: Serie[]
 }
 
-const CharacterPage = ({ character, comics }: Props) => {
+const CharacterPage = ({ character, comics, series }: Props) => {
   return (
     <AppLayout headTitle={`${character.name} | Next Marvel`}>
       <section className='text-white pb-14 flex flex-col mx-auto items-center justify-center gap-4 md:gap-6 md:items-stretch md:flex-row md:justify-start md:m-0 '>
@@ -54,6 +58,9 @@ const CharacterPage = ({ character, comics }: Props) => {
 
       <section className='min-h-[300px]' id='series'>
         <h2>Series</h2>
+        <article>
+          <SeriesSumary series={series} />
+        </article>
       </section>
 
       <section className='min-h-[300px]' id='events'>
@@ -94,10 +101,16 @@ export const getStaticProps: GetStaticProps = async context => {
     CHARACTER_URL_PARAMS
   )
 
+  const seriesResponse = await getSeriesOfCharacter(
+    idCharacter,
+    CHARACTER_URL_PARAMS
+  )
+
   return {
     props: {
       character: data.results[0],
-      comics: comicsResponse.data.results
+      comics: comicsResponse.data.results,
+      series: seriesResponse.data.results
     }
   }
 }
