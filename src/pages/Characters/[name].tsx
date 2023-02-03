@@ -1,16 +1,12 @@
 import AppLayout from '@/components/AppLayout'
-import ComicsSumary from '@/components/ComicsSumary'
-import SeriesSumary from '@/components/SeriesSumary'
+import Carousel from '@/components/Carousel'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
-import {
-  getCharacter,
-  getCharacters,
-  getComicsOfCharacter,
-  getSeriesOfCharacter
-} from '@/services/Characters'
+import * as characterServices from '@/services/Characters'
 import { Character } from '@/types/character'
 import { Comic } from '@/types/comics'
+import { Event } from '@/types/events'
 import { Serie } from '@/types/series'
+import { extractImgToCarouselFrom } from '@/utiles'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,12 +15,35 @@ interface Props {
   character: Character
   comics: Comic[]
   series: Serie[]
+  events: Event[]
 }
 
-const CharacterPage = ({ character, comics, series }: Props) => {
+interface ContentSection {
+  identifier: 'comics' | 'series' | 'events'
+  items: Comic[] | Serie[] | Event[]
+}
+
+interface LinkToContentSection {
+  href: string
+  description: string
+}
+
+const CharacterPage = ({ character, comics, series, events }: Props) => {
+  const contentSections: ContentSection[] = [
+    { identifier: 'comics', items: comics },
+    { identifier: 'series', items: series },
+    { identifier: 'events', items: events }
+  ]
+
+  const linksTocontentSection: LinkToContentSection[] = [
+    { href: '#comics', description: `Comics (${character.comics.available})` },
+    { href: '#serie', description: `Series (${character.series.available})` },
+    { href: '#events', description: `Comics (${character.events.available})` }
+  ]
+
   return (
     <AppLayout headTitle={`${character.name} | Next Marvel`}>
-      <section className='text-white pb-14 flex flex-col mx-auto items-center justify-center gap-4 md:gap-6 md:items-stretch md:flex-row md:justify-start md:m-0 '>
+      <section className='text-white pb-20 flex flex-col mx-auto items-center justify-center gap-4 md:gap-6 md:items-stretch md:flex-row md:justify-start md:m-0 '>
         <Image
           className='w-full aspect-square object-cover md:max-w-sm'
           src={character.thumbnail.path + '.' + character.thumbnail.extension}
@@ -37,35 +56,37 @@ const CharacterPage = ({ character, comics, series }: Props) => {
             <h2 className='text-3xl pb-2 text-primary underline underline-offset-4'>
               {character.name}
             </h2>
-            <p className='first-letter:ml-5 first-letter:text-xl first-letter:text-primary md:max-w-lg'>
-              {character.description || 'No description available'}
-            </p>
           </header>
-          <div className='mt-auto flex gap-4 hover:[&_a]:text-primary'>
-            <Link href='#comics'>Comics ({character.comics.available})</Link>
-            <Link href='#series'>Series ({character.series.available})</Link>
-            <Link href='#events'>Events ({character.events.available})</Link>
+          <p className='first-letter:ml-5 first-letter:text-xl first-letter:text-primary md:max-w-lg'>
+            {character.description || 'No description available'}
+          </p>
+          <div className='mt-auto flex gap-4 '>
+            {linksTocontentSection.map(({ href, description }) => (
+              <Link className='hover:text-primary' key={href} href={href}>
+                {description}
+              </Link>
+            ))}
           </div>
         </article>
       </section>
 
-      <section className='min-h-[300px] flex flex-col gap-4' id='comics'>
-        <h2 className='text-3xl'>Comics</h2>
-        <article className='h-full '>
-          <ComicsSumary comics={comics} />
-        </article>
-      </section>
-
-      <section className='min-h-[300px]' id='series'>
-        <h2>Series</h2>
-        <article>
-          <SeriesSumary series={series} />
-        </article>
-      </section>
-
-      <section className='min-h-[300px]' id='events'>
-        <h2>Events</h2>
-      </section>
+      {contentSections.map(({ identifier, items }) => (
+        <section
+          id={identifier}
+          key={identifier}
+          className='min-h-[300px] flex flex-col gap-4'
+        >
+          <h2 className='text-3xl capitalize'>
+            {identifier} {character[identifier].available}
+          </h2>
+          <article className='h-full border-t-2 pt-5 border-primary'>
+            <Carousel
+              images={extractImgToCarouselFrom(items, identifier)}
+              imgWidth={300}
+            />
+          </article>
+        </section>
+      ))}
     </AppLayout>
   )
 }
@@ -73,7 +94,7 @@ const CharacterPage = ({ character, comics, series }: Props) => {
 export const getStaticPaths: GetStaticPaths = async () => {
   const {
     data: { results }
-  } = await getCharacters(CHARACTER_URL_PARAMS)
+  } = await characterServices.getCharacters(CHARACTER_URL_PARAMS)
   const pathsWithParams = results.map(character => ({
     params: { name: String(character.name) }
   }))
@@ -87,7 +108,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async context => {
   const name = context.params?.name
 
-  const { data } = await getCharacter(String(name))
+  const { data } = await characterServices.getCharacter(String(name))
 
   if (!data.results.length) {
     return {
@@ -96,12 +117,17 @@ export const getStaticProps: GetStaticProps = async context => {
   }
   const idCharacter = data.results[0].id
 
-  const comicsResponse = await getComicsOfCharacter(
+  const comicsResponse = await characterServices.getComicsOfCharacter(
     idCharacter,
     CHARACTER_URL_PARAMS
   )
 
-  const seriesResponse = await getSeriesOfCharacter(
+  const seriesResponse = await characterServices.getSeriesOfCharacter(
+    idCharacter,
+    CHARACTER_URL_PARAMS
+  )
+
+  const eventsResponse = await characterServices.getEventsOfCharacter(
     idCharacter,
     CHARACTER_URL_PARAMS
   )
@@ -110,7 +136,8 @@ export const getStaticProps: GetStaticProps = async context => {
     props: {
       character: data.results[0],
       comics: comicsResponse.data.results,
-      series: seriesResponse.data.results
+      series: seriesResponse.data.results,
+      events: eventsResponse.data.results
     }
   }
 }

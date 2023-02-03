@@ -3,22 +3,16 @@ import React, { useEffect, useRef, useState } from 'react'
 import ArrowRight from '../icons/ArrowRight'
 import ArrowLeft from '../icons/ArrowLeft'
 import useWindowWidth from '@/hooks/useWindowWidth'
-
-interface Img {
-  title?: string
-  url?: string
-  src: string
-  alt: string
-}
+import Link from 'next/link'
+import { ImgToCarousel } from '@/types'
 
 interface Props {
-  images: Img[]
+  images: ImgToCarousel[]
   imgWidth: number
 }
 
 const Carousel = ({ images, imgWidth }: Props) => {
   const imgsRef = useRef<HTMLDivElement>(null)
-  const [scrollPosition, setScrollPosition] = useState<number>(0)
   const [imgContainerWidth, setImageContainerWidth] = useState<number>(0)
   const { windowWidth } = useWindowWidth()
 
@@ -35,12 +29,10 @@ const Carousel = ({ images, imgWidth }: Props) => {
 
     if (nextScrollPosition < imgContainerWidth) {
       imgsRef.current.scroll({ left: nextScrollPosition, behavior: 'smooth' })
-      setScrollPosition(nextScrollPosition)
       return
     }
 
     imgsRef.current.scroll({ left: imgContainerWidth, behavior: 'smooth' })
-    setScrollPosition(imgContainerWidth)
   }
 
   const handleScrollLeft = () => {
@@ -49,58 +41,57 @@ const Carousel = ({ images, imgWidth }: Props) => {
 
     if (nextScrollPosition < 0) {
       imgsRef.current.scroll({ left: 0, behavior: 'smooth' })
-      setScrollPosition(0)
       return
     }
 
     imgsRef.current.scroll({ left: nextScrollPosition, behavior: 'smooth' })
-    setScrollPosition(nextScrollPosition)
   }
 
   return (
-    <div className='flex relative'>
-      {windowWidth < imgContainerWidth && (
-        <div className='absolute top-0 left-0 w-full h-full flex justify-between items-center lg:opacity-10 hover:lg:opacity-100 transition-opacity'>
-          {scrollPosition !== 0 && (
-            <button
-              className='px-4 font-bold bg-primary aspect-square rounded-full '
-              type='button'
-              onClick={handleScrollLeft}
-            >
-              <ArrowLeft width={30} height={30} />
-            </button>
-          )}
-          {scrollPosition !== imgContainerWidth && (
-            <button
-              className='px-4 font-bold bg-primary aspect-square rounded-full ml-auto'
-              type='button'
-              onClick={handleScrollRight}
-            >
-              <ArrowRight width={30} height={30} />
-            </button>
-          )}
-        </div>
-      )}
+    <div className='flex flex-col gap-4'>
       <div ref={imgsRef} className='overflow-x-scroll flex no-scrollbar'>
         {images.map(img => {
           return (
-            <picture
+            <div
               key={img.alt}
-              className='flex p-2 w-full aspect-[9/16]'
+              className='relative aspect-[9/16] bg-secondary'
               style={{ minWidth: imgWidth, maxHeight: imgWidth * 1.77 }}
             >
               <Image
                 priority={true}
-                className='w-full h-full object-cover object-left'
+                className='w-full h-full object-cover object-center '
                 src={img.src}
                 alt={img.alt}
                 width={imgWidth}
                 height={imgWidth * 1.77} // 9/16
               />
-            </picture>
+              <div className='absolute w-full flex flex-col bottom-0 left-0 p-2 text-left bg-black'>
+                <Link className='' href={img.url}>
+                  <span>{img.title} 🔍</span>
+                </Link>
+              </div>
+            </div>
           )
         })}
       </div>
+      {windowWidth < imgContainerWidth && (
+        <div className='flex justify-end gap-4'>
+          <button
+            className='px-4 font-bold bg-primary py-2 rounded-sm hover:brightness-125 '
+            type='button'
+            onClick={handleScrollLeft}
+          >
+            <ArrowLeft width={30} height={30} />
+          </button>
+          <button
+            className='px-4 font-bold bg-primary py-2 rounded-sm hover:brightness-125'
+            type='button'
+            onClick={handleScrollRight}
+          >
+            <ArrowRight width={30} height={30} />
+          </button>
+        </div>
+      )}
     </div>
   )
 }

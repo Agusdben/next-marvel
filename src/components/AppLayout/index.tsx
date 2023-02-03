@@ -1,6 +1,7 @@
 import { ReactChildren } from '@/types'
 import Head from 'next/head'
 import React from 'react'
+import AppFooter from '../AppFooter'
 import AppHeader from '../AppHeader'
 
 interface Props extends ReactChildren {
@@ -16,12 +17,12 @@ const AppLayout = ({ children, headTitle }: Props) => {
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='relative flex font-bold text-primary flex-col min-h-screen max-w-screen bg-dotted-spacing-10 bg-background bg-dotted-black bg-fixed'>
+      <div className='relative flex font-bold text-primary flex-col min-h-screen max-w-screen bg-dotted-spacing-12 bg-primary bg-dotted-secondary bg-'>
         <AppHeader />
-        <main className='flex-1 p-2 m-auto flex flex-col gap-4 max-w-7xl w-full'>
+        <main className='flex-1 p-2 m-auto flex flex-col max-w-7xl w-full bg-black px-4'>
           {children}
         </main>
-        <footer>FOOTER</footer>
+        <AppFooter />
       </div>
     </>
   )

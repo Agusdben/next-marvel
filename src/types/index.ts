@@ -3,9 +3,17 @@ import React from 'react'
 export interface ReactChildren {
   children: React.ReactNode
 }
+
 export interface Url {
   type: string
   url: string
+}
+
+export interface ImgToCarousel {
+  title: string
+  url: string
+  src: string
+  alt: string
 }
 
 export interface ResourceName {
