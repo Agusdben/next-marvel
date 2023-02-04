@@ -20,7 +20,7 @@ const SearchForm = ({ onSubmit }: Props) => {
   return (
     <form
       onSubmit={handleOnSubmit}
-      className='flex w-full rounded-md overflow-hidden border-2 border-primary'
+      className='flex w-full rounded-md overflow-hidden border-2 border-primary my-8'
     >
       <input
         className='flex-1 px-3 bg-transparent'
