@@ -53,7 +53,9 @@ const Characters = ({ char }: Props) => {
       <SearchForm onSubmit={handleSearch} />
       <CharactersList characters={characters} />
       {hasMore && (
-        <Button onClick={handleLoadMore} value='Load more' type='button' />
+        <div className='m-auto'>
+          <Button onClick={handleLoadMore} value='Load more' type='button' />
+        </div>
       )}
     </AppLayout>
   )

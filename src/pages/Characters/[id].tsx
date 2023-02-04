@@ -2,6 +2,7 @@ import AppLayout from '@/components/AppLayout'
 import Carousel from '@/components/Carousel'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import * as characterServices from '@/services/Characters'
+import { AvailableContent } from '@/types'
 import { Character } from '@/types/character'
 import { Comic } from '@/types/comics'
 import { Event } from '@/types/events'
@@ -20,32 +21,36 @@ interface Props {
   stories: Storie[]
 }
 
-interface ContentSection {
-  identifier: 'comics' | 'series' | 'events' | 'stories'
-  items: Comic[] | Serie[] | Event[]
-}
-
 interface LinkToContentSection {
   href: string
   description: string
 }
 
-const CharacterPage = ({ character, comics, series, events }: Props) => {
-  const contentSections: ContentSection[] = [
+const CharacterPage = ({
+  character,
+  comics,
+  series,
+  events,
+  stories
+}: Props) => {
+  console.log(stories)
+  const contentSections: AvailableContent[] = [
     { identifier: 'comics', items: comics },
     { identifier: 'events', items: events },
-    { identifier: 'series', items: series }
+    { identifier: 'series', items: series },
+    { identifier: 'stories', items: stories }
   ]
 
-  const linksTocontentSection: LinkToContentSection[] = [
+  const linksToContentSection: LinkToContentSection[] = [
     { href: '#comics', description: `Comics (${character.comics.available})` },
     { href: '#events', description: `Events (${character.events.available})` },
-    { href: '#series', description: `Series (${character.series.available})` }
+    { href: '#series', description: `Series (${character.series.available})` },
+    { href: '#stories', description: `Series (${character.stories.available})` }
   ]
 
   return (
     <AppLayout headTitle={`${character.name} | Next Marvel`}>
-      <section className='text-white pb-20 flex flex-col mx-auto items-center justify-center gap-4 md:gap-6 md:items-stretch md:flex-row md:justify-start md:m-0 '>
+      <section className='text-white mb-12 p-6 bg-background rounded-md w-full flex flex-col items-center justify-center gap-4 md:gap-6 md:items-stretch md:flex-row md:justify-start'>
         <Image
           className='w-full aspect-square object-cover md:max-w-sm'
           src={character.thumbnail.path + '.' + character.thumbnail.extension}
@@ -63,7 +68,7 @@ const CharacterPage = ({ character, comics, series, events }: Props) => {
             {character.description || 'No description available'}
           </p>
           <div className='mt-auto flex gap-4 '>
-            {linksTocontentSection.map(({ href, description }) => (
+            {linksToContentSection.map(({ href, description }) => (
               <Link className='hover:text-primary' key={href} href={href}>
                 {description}
               </Link>
@@ -76,12 +81,12 @@ const CharacterPage = ({ character, comics, series, events }: Props) => {
         <section
           id={identifier}
           key={identifier}
-          className='min-h-[300px] flex flex-col gap-4'
+          className='min-h-[300px] flex flex-col gap-4 bg-background rounded-md p-4 mb-12'
         >
           <h2 className='text-3xl capitalize'>
-            {identifier} {character[identifier].available}
+            {identifier} ({character[identifier].available})
           </h2>
-          <article className='h-full border-t-2 pt-5 border-primary'>
+          <article className='h-full border-t-2 pt-5 border-secondary'>
             <Carousel
               images={extractImgToCarouselFrom(items, identifier)}
               imgWidth={300}
@@ -98,7 +103,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     data: { results }
   } = await characterServices.getCharacters(CHARACTER_URL_PARAMS)
   const pathsWithParams = results.map(character => ({
-    params: { name: String(character.name) }
+    params: { id: String(character.id) }
   }))
 
   return {
@@ -108,29 +113,32 @@ export const getStaticPaths: GetStaticPaths = async () => {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-  const name = context.params?.name
+  const id = Number(context.params?.id)
 
-  const { data } = await characterServices.getCharacter(String(name))
+  const { data } = await characterServices.getCharacter(id)
 
   if (!data.results.length) {
     return {
       notFound: true
     }
   }
-  const idCharacter = data.results[0].id
-
   const comicsResponse = await characterServices.getComicsOfCharacter(
-    idCharacter,
+    id,
     CHARACTER_URL_PARAMS
   )
 
   const seriesResponse = await characterServices.getSeriesOfCharacter(
-    idCharacter,
+    id,
     CHARACTER_URL_PARAMS
   )
 
   const eventsResponse = await characterServices.getEventsOfCharacter(
-    idCharacter,
+    id,
+    CHARACTER_URL_PARAMS
+  )
+
+  const storiesResponse = await characterServices.getStoriesOfCharacter(
+    id,
     CHARACTER_URL_PARAMS
   )
 
@@ -139,7 +147,8 @@ export const getStaticProps: GetStaticProps = async context => {
       character: data.results[0],
       comics: comicsResponse.data.results,
       events: eventsResponse.data.results,
-      series: seriesResponse.data.results
+      series: seriesResponse.data.results,
+      stories: storiesResponse.data.results
     }
   }
 }

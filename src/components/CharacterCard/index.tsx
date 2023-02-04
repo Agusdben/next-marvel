@@ -25,7 +25,7 @@ const CharacterCard = ({ character }: Props) => {
         </div>
         <div className='ml-auto p-2'>
           <ButtonLink
-            href={`/characters/${character.name}`}
+            href={`/characters/${character.id}`}
             text={'Details 📝'}
           />
         </div>

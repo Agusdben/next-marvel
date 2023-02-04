@@ -1,15 +1,11 @@
-import { ImgToCarousel } from '@/types'
-import { Comic } from '@/types/comics'
-import { Event } from '@/types/events'
-import { Serie } from '@/types/series'
-
+import { AvailableContent, ImgToCarousel } from '@/types'
 export function extractImgToCarouselFrom (
-  arr: Comic[] | Serie[] | Event[],
-  identifier: string
+  arr: AvailableContent['items'],
+  identifier: AvailableContent['identifier']
 ): ImgToCarousel[] {
   return arr.map(item => {
     const { thumbnail, title, id } = item
-    const src = thumbnail.path + '.' + thumbnail.extension
+    const src = thumbnail ? thumbnail.path + '.' + thumbnail.extension : null
     const alt = `Marvel ${identifier} ${title}`
     const url = `/${identifier}/${id}`
     return {

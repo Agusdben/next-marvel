@@ -27,6 +27,6 @@ export interface Data extends ApiData {
   results: Storie[]
 }
 
-export interface RootObject extends ApiRoot {
+export interface ApiStorie extends ApiRoot {
   data: Data
 }

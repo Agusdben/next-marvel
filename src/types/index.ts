@@ -1,4 +1,8 @@
 import React from 'react'
+import { Comic } from './comics'
+import { Event } from './events'
+import { Serie } from './series'
+import { Storie } from './stories'
 
 export interface ReactChildren {
   children: React.ReactNode
@@ -12,7 +16,7 @@ export interface Url {
 export interface ImgToCarousel {
   title: string
   url: string
-  src: string
+  src: string | null
   alt: string
 }
 
@@ -64,4 +68,9 @@ export interface SvgProps {
   width: number
   height: number
   fill?: string
+}
+
+export interface AvailableContent {
+  identifier: 'comics' | 'series' | 'events' | 'stories'
+  items: Comic[] | Serie[] | Event[] | Storie[]
 }

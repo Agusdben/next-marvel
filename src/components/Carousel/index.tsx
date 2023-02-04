@@ -21,7 +21,7 @@ const Carousel = ({ images, imgWidth }: Props) => {
     const container = imgsRef.current
     const imgContainerWidth = container.scrollWidth
     setImageContainerWidth(imgContainerWidth)
-  }, [])
+  }, [windowWidth])
 
   const handleScrollRight = () => {
     if (!imgsRef.current) return
@@ -48,19 +48,19 @@ const Carousel = ({ images, imgWidth }: Props) => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
-      <div ref={imgsRef} className='overflow-x-scroll flex no-scrollbar'>
+    <div className='flex flex-col gap-4 '>
+      <div ref={imgsRef} className='overflow-x-scroll flex gap-6 no-scrollbar'>
         {images.map(img => {
           return (
             <div
               key={img.alt}
-              className='relative aspect-[9/16] bg-secondary'
+              className='relative aspect-[9/16]'
               style={{ minWidth: imgWidth, maxHeight: imgWidth * 1.77 }}
             >
               <Image
                 priority={true}
-                className='w-full h-full object-cover object-center '
-                src={img.src}
+                className='w-full h-full object-cover object-left hover:object-right transition-all'
+                src={img.src || '/image_not_available.webp'}
                 alt={img.alt}
                 width={imgWidth}
                 height={imgWidth * 1.77} // 9/16

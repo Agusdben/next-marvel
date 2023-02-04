@@ -17,7 +17,7 @@ const HomeCharacters = ({ characters }: Props) => {
         >
           <div className='p-2 relative z-10 h-full text-white bg-black bg-opacity-70 flex flex-col justify-between items-center hover:bg-opacity-0'>
             <p className='text-2xl text-left mr-auto'>{c.name}</p>
-            <ButtonLink text='More info' href={`/characters/${c.name}`} />
+            <ButtonLink text='More info' href={`/characters/${c.id}`} />
           </div>
           <Image
             className='absolute top-0 left-0 h-full w-full object-cover object-center'
