@@ -1,36 +1,32 @@
 import {
   ApiData,
   ApiRoot,
-  ResourceName,
-  Thumbnail,
-  Url,
+  ItemsSumary,
   PeopleSumary,
-  ItemsSumary
+  ResourceName,
+  Thumbnail
 } from '.'
 
-export interface Event {
+export interface Storie {
   id: string
   title: string
   description: string
   resourceURI: string
-  urls: Url[]
+  type: string
   modified: string
-  start: string
-  end: string
   thumbnail: Thumbnail
   comics: ItemsSumary
-  stories: PeopleSumary
   series: ItemsSumary
+  events: ItemsSumary
   characters: PeopleSumary
   creators: PeopleSumary
-  next: ResourceName
-  previous: ResourceName
+  originalissue: ResourceName
 }
 
 export interface Data extends ApiData {
-  results: Event[]
+  results: Storie[]
 }
 
-export interface ApiEvent extends ApiRoot {
+export interface RootObject extends ApiRoot {
   data: Data
 }

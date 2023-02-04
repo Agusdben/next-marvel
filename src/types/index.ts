@@ -48,6 +48,10 @@ export interface Sumary {
   collectionURI: string
 }
 
+export interface ItemsSumary extends Sumary {
+  items: ResourceName[]
+}
+
 export interface People extends ResourceName {
   role: string
 }

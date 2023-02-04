@@ -19,7 +19,7 @@ interface Props {
 }
 
 interface ContentSection {
-  identifier: 'comics' | 'series' | 'events'
+  identifier: 'comics' | 'series' | 'events' | 'stories'
   items: Comic[] | Serie[] | Event[]
 }
 
@@ -31,14 +31,14 @@ interface LinkToContentSection {
 const CharacterPage = ({ character, comics, series, events }: Props) => {
   const contentSections: ContentSection[] = [
     { identifier: 'comics', items: comics },
-    { identifier: 'series', items: series },
-    { identifier: 'events', items: events }
+    { identifier: 'events', items: events },
+    { identifier: 'series', items: series }
   ]
 
   const linksTocontentSection: LinkToContentSection[] = [
     { href: '#comics', description: `Comics (${character.comics.available})` },
-    { href: '#serie', description: `Series (${character.series.available})` },
-    { href: '#events', description: `Comics (${character.events.available})` }
+    { href: '#events', description: `Events (${character.events.available})` },
+    { href: '#series', description: `Series (${character.series.available})` }
   ]
 
   return (
@@ -136,8 +136,8 @@ export const getStaticProps: GetStaticProps = async context => {
     props: {
       character: data.results[0],
       comics: comicsResponse.data.results,
-      series: seriesResponse.data.results,
-      events: eventsResponse.data.results
+      events: eventsResponse.data.results,
+      series: seriesResponse.data.results
     }
   }
 }

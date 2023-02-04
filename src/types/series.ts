@@ -5,23 +5,12 @@ import {
   PeopleSumary,
   Thumbnail,
   Url,
-  ApiRoot
+  ApiRoot,
+  ItemsSumary
 } from '.'
-
-export interface Comics extends Sumary {
-  items: ResourceName[]
-}
 
 export interface Storie extends ResourceName {
   type: string
-}
-
-export interface Stories extends Sumary {
-  items: Storie[]
-}
-
-export interface Events extends Sumary {
-  items: ResourceName[]
 }
 
 export interface Creator extends ResourceName {
@@ -43,9 +32,9 @@ export interface Serie {
   rating: string
   modified: string
   thumbnail: Thumbnail
-  comics: Comics
-  stories: Stories
-  events: Events
+  comics: ItemsSumary
+  stories: ItemsSumary
+  events: ItemsSumary
   characters: PeopleSumary
   creators: Creators
   next: ResourceName

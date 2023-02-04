@@ -1,12 +1,16 @@
-import { ApiData, ApiRoot, Sumary, Thumbnail, Url, ResourceName } from '.'
+import {
+  ApiData,
+  ApiRoot,
+  Sumary,
+  Thumbnail,
+  Url,
+  ResourceName,
+  ItemsSumary
+} from '.'
 
 export interface CharacterUriParams {
   limit: number
   offset: number
-}
-
-export interface CharacterComics extends Sumary {
-  items: ResourceName[]
 }
 
 export interface StoriesItem extends ResourceName {
@@ -17,14 +21,6 @@ export interface CharacterStories extends Sumary {
   items: StoriesItem[]
 }
 
-export interface CharacterEvents extends Sumary {
-  items: ResourceName[]
-}
-
-export interface CharacterSeries extends Sumary {
-  items: ResourceName[]
-}
-
 export interface Character {
   id: number
   name: string
@@ -33,10 +29,10 @@ export interface Character {
   resourceURI: string
   urls: Url[]
   thumbnail: Thumbnail
-  comics: CharacterComics
+  comics: ItemsSumary
   stories: CharacterStories
-  events: CharacterEvents
-  series: CharacterSeries
+  events: ItemsSumary
+  series: ItemsSumary
 }
 
 export interface CharacterData extends ApiData {
