@@ -1,4 +1,5 @@
 import { AvailableContent, ImgToCarousel } from '@/types'
+
 export function extractImgToCarouselFrom (
   arr: AvailableContent['items'],
   identifier: AvailableContent['identifier']
@@ -15,4 +16,10 @@ export function extractImgToCarouselFrom (
       url
     }
   })
+}
+
+export function formatObjectToUrlParam (obj) {
+  return Object.entries(obj)
+    .map(([key, value]) => `${key}=${value}`)
+    .join('&')
 }

@@ -1,35 +1,39 @@
 import AppLayout from '@/components/AppLayout'
 import Button from '@/components/Button'
 import CharactersList from '@/components/CharactersList'
-import SearchForm from '@/components/SearchForm'
+import SearchCharacters from '@/components/SearchCharacters'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import useSearchMore from '@/hooks/useSearchMore'
-import useSearchRoute from '@/hooks/useSearchRoute'
 import { searchCharacter } from '@/services/Characters'
-import { Character } from '@/types/character'
+import { Character, CharacterUriParams } from '@/types/character'
 import { GetServerSideProps } from 'next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface Props {
-  query: string
+  searchedName: string
   chars: Character[]
   totalResults: number
+  params: CharacterUriParams
 }
 
-const SearchByName = ({ query, chars, totalResults }: Props) => {
-  const { handleSearch } = useSearchRoute({ baseRoute: '/characters/search' })
-  const [characters, setCharacters] = useState<Character[]>(chars)
+const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
+  const [characters, setCharacters] = useState<Character[]>([])
   const { hasMore, offset, increaseOffset, setLimitResultsReached } =
     useSearchMore({
-      initialHasMore: chars.length < totalResults,
-      initialOffset: 0
+      initialHasMore: totalResults > characters.length,
+      initialOffset: params.offset
     })
+
+  useEffect(() => {
+    setCharacters(chars)
+  }, [chars])
+
   const searchMore = async () => {
     if (!hasMore) return
 
     const nextOffset = offset + 1
-    const newCharacters = await searchCharacter(query, {
-      ...CHARACTER_URL_PARAMS,
+    const newCharacters = await searchCharacter(searchedName, {
+      ...params,
       offset: nextOffset
     })
 
@@ -45,12 +49,13 @@ const SearchByName = ({ query, chars, totalResults }: Props) => {
   }
 
   return (
-    <AppLayout headTitle={`Results of "${query}" | Next Marvel`}>
-      <SearchForm onSubmit={handleSearch} />
+    <AppLayout headTitle={`Results of "${searchedName}" | Next Marvel`}>
+      <SearchCharacters />
       <section>
         <header className='my-5 py-2 text-xl font-bold border-b-2 border-black'>
           <h2>
-            Results of: &quot;{query}&quot; ({totalResults})
+            Results of: &quot;{searchedName}&quot; ({characters.length}/
+            {totalResults})
           </h2>
         </header>
         <CharactersList characters={characters} />
@@ -63,16 +68,28 @@ const SearchByName = ({ query, chars, totalResults }: Props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const name = context.params?.name || ''
+  const { name = '', ...restParams } = context.query
 
-  const response = await searchCharacter(name, CHARACTER_URL_PARAMS)
+  const params: CharacterUriParams = {
+    limit: restParams.limit
+      ? Number(restParams.limit)
+      : CHARACTER_URL_PARAMS.limit,
+    modifiedSince: String(restParams.modifiedSince) || '',
+    offset: 0,
+    orderBy: restParams.orderBy
+      ? String(restParams.orderBy)
+      : CHARACTER_URL_PARAMS.orderBy
+  }
+
+  const response = await searchCharacter(name, params)
   const characters = response.data.results
   const totalResults = response.data.total
   return {
     props: {
-      query: name,
+      searchedName: name,
       chars: characters,
-      totalResults
+      totalResults,
+      params
     }
   }
 }

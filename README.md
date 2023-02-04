@@ -10,12 +10,13 @@
 ### ToDo
 
 - [ ] Home page with variety content
-- [ ] Page for a single character description
-- [ ] For each character:
-  - [ ] comics
-  - [ ] events
-  - [ ] serie
-  - [ ] stories
+- [x] Page for a single character description
+- [x] For each character:
+  - [x] comics
+  - [x] events
+  - [x] serie
+  - [x] stories
+- [ ] Comics, events, series, stories search
 
 May will change
 

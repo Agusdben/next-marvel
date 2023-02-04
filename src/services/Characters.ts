@@ -4,6 +4,7 @@ import { ApiComic } from '@/types/comics'
 import { ApiEvent } from '@/types/events'
 import { ApiSerie } from '@/types/series'
 import { ApiStorie } from '@/types/stories'
+import { formatObjectToUrlParam } from '@/utiles'
 import { ENV, AUTH_PARAMS } from '@/utiles/apiConfig'
 
 const CHARACTERS_URL = `${ENV.API_URL}/characters`
@@ -45,7 +46,10 @@ export const searchCharacter = (
 
   const calculatedOffset = limit * offset
 
-  const paramsUrl = `offset=${calculatedOffset}&limit=${limit}`
+  const paramsUrl = formatObjectToUrlParam({
+    ...params,
+    offset: calculatedOffset
+  })
 
   const URL = `${CHARACTERS_URL}?${AUTH_PARAMS}&nameStartsWith=${nameStartsWith}&${paramsUrl}`
 

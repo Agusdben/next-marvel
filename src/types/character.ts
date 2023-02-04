@@ -1,4 +1,4 @@
-import {
+import type {
   ApiData,
   ApiRoot,
   Sumary,
@@ -11,6 +11,8 @@ import {
 export interface CharacterUriParams {
   limit: number
   offset: number
+  orderBy: string
+  modifiedSince: string // ISO 8601
 }
 
 export interface StoriesItem extends ResourceName {

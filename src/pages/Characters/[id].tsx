@@ -122,25 +122,16 @@ export const getStaticProps: GetStaticProps = async context => {
       notFound: true
     }
   }
-  const comicsResponse = await characterServices.getComicsOfCharacter(
-    id,
-    CHARACTER_URL_PARAMS
-  )
 
-  const seriesResponse = await characterServices.getSeriesOfCharacter(
-    id,
-    CHARACTER_URL_PARAMS
-  )
+  const promises = [
+    characterServices.getComicsOfCharacter(id, CHARACTER_URL_PARAMS),
+    characterServices.getEventsOfCharacter(id, CHARACTER_URL_PARAMS),
+    characterServices.getSeriesOfCharacter(id, CHARACTER_URL_PARAMS),
+    characterServices.getStoriesOfCharacter(id, CHARACTER_URL_PARAMS)
+  ]
 
-  const eventsResponse = await characterServices.getEventsOfCharacter(
-    id,
-    CHARACTER_URL_PARAMS
-  )
-
-  const storiesResponse = await characterServices.getStoriesOfCharacter(
-    id,
-    CHARACTER_URL_PARAMS
-  )
+  const [comicsResponse, eventsResponse, seriesResponse, storiesResponse] =
+    await Promise.all(promises)
 
   return {
     props: {
