@@ -9,7 +9,7 @@ import {
 } from '.'
 
 export interface Event {
-  id: string
+  id: number
   title: string
   description: string
   resourceURI: string
