@@ -9,20 +9,16 @@ import {
   ItemsSumary
 } from '.'
 
-export interface Storie extends ResourceName {
-  type: string
-}
-
-export interface Creator extends ResourceName {
+interface Creator extends ResourceName {
   role: string
 }
 
-export interface Creators extends Sumary {
+interface Creators extends Sumary {
   items: Creator[]
 }
 
 export interface Serie {
-  id: string
+  id: number
   title: string
   description: string
   resourceURI: string

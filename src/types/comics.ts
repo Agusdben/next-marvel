@@ -5,7 +5,8 @@ import {
   Thumbnail,
   Url,
   ResourceName,
-  PeopleSumary
+  PeopleSumary,
+  ItemsSumary
 } from '.'
 
 export interface TextObject {
@@ -24,9 +25,7 @@ export interface Price {
   price: string
 }
 
-export interface ComicStorie {
-  resourceURI: string
-  name: string
+export interface ComicStorie extends ResourceName {
   type: string
 }
 
@@ -34,17 +33,8 @@ export interface Stories extends Sumary {
   items: ComicStorie[]
 }
 
-export interface ComicEvent {
-  resourceURI: string
-  name: string
-}
-
-export interface Events extends Sumary {
-  items: ComicEvent[]
-}
-
 export interface Comic {
-  id: string
+  id: number
   digitalId: string
   title: string
   issueNumber: string
@@ -72,7 +62,7 @@ export interface Comic {
   creators: PeopleSumary
   characters: PeopleSumary
   stories: Stories
-  events: Events
+  events: ItemsSumary
 }
 
 export interface Data extends ApiData {

@@ -8,7 +8,7 @@ import {
 } from '.'
 
 export interface Storie {
-  id: string
+  id: number
   title: string
   description: string
   resourceURI: string

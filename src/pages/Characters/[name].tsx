@@ -6,6 +6,7 @@ import { Character } from '@/types/character'
 import { Comic } from '@/types/comics'
 import { Event } from '@/types/events'
 import { Serie } from '@/types/series'
+import { Storie } from '@/types/stories'
 import { extractImgToCarouselFrom } from '@/utiles'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
@@ -14,8 +15,9 @@ import Link from 'next/link'
 interface Props {
   character: Character
   comics: Comic[]
-  series: Serie[]
   events: Event[]
+  series: Serie[]
+  stories: Storie[]
 }
 
 interface ContentSection {
