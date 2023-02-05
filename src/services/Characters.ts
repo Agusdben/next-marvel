@@ -10,7 +10,7 @@ import { ENV, AUTH_PARAMS } from '@/utiles/apiConfig'
 const CHARACTERS_URL = `${ENV.API_URL}/characters`
 
 export const getCharacters = (
-  params: CharacterUriParams
+  params: BasicUrlParams
 ): Promise<ApiCharacter> => {
   const { limit, offset } = params
 
@@ -42,7 +42,6 @@ export const getCharacter = (id: number): Promise<ApiCharacter> => {
 }
 
 export const searchCharacter = (
-  nameStartsWith: string | string[],
   params: CharacterUriParams
 ): Promise<ApiCharacter> => {
   const { limit, offset } = params
@@ -54,7 +53,7 @@ export const searchCharacter = (
     offset: calculatedOffset
   })
 
-  const URL = `${CHARACTERS_URL}?${AUTH_PARAMS}&nameStartsWith=${nameStartsWith}&${paramsUrl}`
+  const URL = `${CHARACTERS_URL}?${AUTH_PARAMS}&${paramsUrl}`
 
   return fetch(URL).then(res => res.json())
 }

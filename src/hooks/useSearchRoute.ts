@@ -7,8 +7,8 @@ interface Props {
 const useSearchRoute = ({ baseRoute }: Props) => {
   const router = useRouter()
 
-  const handleSearch = (keyword: string, params: string) => {
-    router.push(`${baseRoute}/${keyword}?${params}`)
+  const handleSearch = (params: string) => {
+    router.push(`${baseRoute}?${params}`)
   }
 
   return {

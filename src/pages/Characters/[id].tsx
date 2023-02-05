@@ -1,7 +1,6 @@
 import AppLayout from '@/components/AppLayout'
 import Carousel from '@/components/Carousel'
 import { BASIC_PARAMS } from '@/constants'
-import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import * as characterServices from '@/services/Characters'
 import { AvailableContent } from '@/types'
 import { Character } from '@/types/character'
@@ -105,7 +104,7 @@ const CharacterPage = ({
 export const getStaticPaths: GetStaticPaths = async () => {
   const {
     data: { results }
-  } = await characterServices.getCharacters(CHARACTER_URL_PARAMS)
+  } = await characterServices.getCharacters(BASIC_PARAMS)
   const pathsWithParams = results.map(character => ({
     params: { id: String(character.id) }
   }))

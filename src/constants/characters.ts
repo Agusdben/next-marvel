@@ -3,6 +3,7 @@ import { BASIC_PARAMS } from '.'
 
 export const CHARACTER_URL_PARAMS: CharacterUriParams = {
   ...BASIC_PARAMS,
+  nameStartsWith: '',
   orderBy: 'name',
   modifiedSince: ''
 }

@@ -1,6 +1,7 @@
 import AppLayout from '@/components/AppLayout'
 import HomeCharacters from '@/components/HomeCharacters'
 import HomeComics from '@/components/HomeComics'
+import SectionHeader from '@/components/SectionHeader'
 import { HOME_CHARACTERS_TO_SHOW } from '@/constants/characters'
 import { HOME_COMICS_TO_SHOW } from '@/constants/comics'
 import { getCharacter } from '@/services/Characters'
@@ -18,11 +19,11 @@ export default function Home ({ characters, comics }: Props) {
   return (
     <AppLayout headTitle='Home | Next Marvel'>
       <section>
-        <h2 className='py-6 text-2xl font-bold'>Popular characters</h2>
+        <SectionHeader title='Popular characters' />
         <HomeCharacters characters={characters} />
       </section>
       <section>
-        <h2 className='py-6 text-2xl font-bold'>Best comics</h2>
+        <SectionHeader title='Best comics' />
         <HomeComics comics={comics} />
       </section>
     </AppLayout>

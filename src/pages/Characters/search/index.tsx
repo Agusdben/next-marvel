@@ -2,6 +2,7 @@ import AppLayout from '@/components/AppLayout'
 import Button from '@/components/Button'
 import CharactersList from '@/components/CharactersList'
 import SearchCharacters from '@/components/SearchCharacters'
+import SectionHeader from '@/components/SectionHeader'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import useSearchMore from '@/hooks/useSearchMore'
 import { searchCharacter } from '@/services/Characters'
@@ -37,7 +38,7 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
     if (!hasMore) return
 
     const nextOffset = offset + 1
-    const newCharacters = await searchCharacter(searchedName, {
+    const newCharacters = await searchCharacter({
       ...params,
       offset: nextOffset
     })
@@ -53,12 +54,10 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
     <AppLayout headTitle={`Results of "${searchedName}" | Next Marvel`}>
       <SearchCharacters />
       <section>
-        <header className='my-5 py-2 text-xl font-bold border-b-2 border-black'>
-          <h2>
-            Results of: &quot;{searchedName}&quot; ({characters.length}/
-            {totalResults})
-          </h2>
-        </header>
+        <SectionHeader
+          title={`Results of: "${searchedName}" (${characters.length}/
+            ${totalResults})`}
+        />
         <CharactersList characters={characters} />
       </section>
       <section className='m-auto'>
@@ -71,25 +70,28 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  const { name = '', ...restParams } = context.query
+  const params = context.query
 
-  const params: CharacterUriParams = {
-    limit: restParams.limit
-      ? Number(restParams.limit)
-      : CHARACTER_URL_PARAMS.limit,
-    modifiedSince: String(restParams.modifiedSince) || '',
+  const formatedParams: CharacterUriParams = {
+    limit: params.limit ? Number(params.limit) : CHARACTER_URL_PARAMS.limit,
+    modifiedSince: String(params.modifiedSince) || '',
     offset: 0,
-    orderBy: restParams.orderBy
-      ? String(restParams.orderBy)
+    orderBy: params.orderBy
+      ? String(params.orderBy)
       : CHARACTER_URL_PARAMS.orderBy
   }
 
-  const response = await searchCharacter(name, params)
+  if (params.nameStartsWith) {
+    formatedParams.nameStartsWith = String(params.nameStartsWith)
+  }
+
+  const response = await searchCharacter(formatedParams)
+
   const characters = response.data.results
   const totalResults = response.data.total
   return {
     props: {
-      searchedName: name,
+      searchedName: formatedParams.nameStartsWith || '',
       chars: characters,
       totalResults,
       params

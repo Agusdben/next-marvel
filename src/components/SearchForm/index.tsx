@@ -13,7 +13,6 @@ const SearchForm = ({ onSubmit }: Props) => {
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!keyword) return
     onSubmit(keyword)
   }
 
@@ -26,7 +25,6 @@ const SearchForm = ({ onSubmit }: Props) => {
         className='flex-1 px-3 bg-transparent'
         type='text'
         name='name'
-        required
         placeholder='Search here...'
         value={keyword}
         onChange={handleOnChange}

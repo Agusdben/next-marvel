@@ -15,14 +15,15 @@ const SearchCharacters = () => {
 
   const handleOnsubmit = (keyword: string) => {
     const formatDate = params.modifiedSince
-      ? new Date(params.modifiedSince).toISOString()
+      ? new Date(String(params.modifiedSince)).toISOString()
       : ''
     const newParams: CharacterUriParams = {
       ...params,
+      nameStartsWith: keyword || '',
       modifiedSince: formatDate
     }
     const formatedParams = formatObjectToUrlParam(newParams)
-    handleSearch(keyword, formatedParams)
+    handleSearch(formatedParams)
   }
 
   const handleParams = (value: string, name: string) => {
@@ -60,7 +61,7 @@ const SearchCharacters = () => {
         />
         <Select
           label='Order By'
-          value={params.orderBy}
+          value={String(params.orderBy)}
           name='orderBy'
           onChange={handleSelect}
           options={['name', '-name', 'modified', '-modified']}

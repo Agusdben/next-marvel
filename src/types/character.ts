@@ -9,10 +9,11 @@ import type {
 } from '.'
 
 export interface CharacterUriParams {
+  nameStartsWith?: string | string[]
   limit: number
   offset: number
-  orderBy: string
-  modifiedSince: string // ISO 8601
+  orderBy: string | string[]
+  modifiedSince: string | string[] // ISO 8601
 }
 
 export interface StoriesItem extends ResourceName {

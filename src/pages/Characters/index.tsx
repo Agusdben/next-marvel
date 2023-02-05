@@ -2,6 +2,8 @@ import AppLayout from '@/components/AppLayout'
 import Button from '@/components/Button'
 import CharactersList from '@/components/CharactersList'
 import SearchCharacters from '@/components/SearchCharacters'
+import SectionHeader from '@/components/SectionHeader'
+import { BASIC_PARAMS } from '@/constants'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import useSearchMore from '@/hooks/useSearchMore'
 import { getCharacters } from '@/services/Characters'
@@ -49,7 +51,12 @@ const Characters = ({ char, totalResults }: Props) => {
       headTitle={`characters results: ${characters.length} | Next Marvel`}
     >
       <SearchCharacters />
-      <CharactersList characters={characters} />
+      <section>
+        <SectionHeader
+          title={`All characters (${characters.length}/${totalResults})`}
+        />
+        <CharactersList characters={characters} />
+      </section>
       {hasMore && (
         <div className='m-auto'>
           <Button onClick={handleLoadMore} value='Load more' type='button' />
@@ -60,7 +67,7 @@ const Characters = ({ char, totalResults }: Props) => {
 }
 
 export const getStaticProps: GetStaticProps = async context => {
-  const response = await getCharacters(CHARACTER_URL_PARAMS)
+  const response = await getCharacters(BASIC_PARAMS)
 
   if (response.status !== 'Ok') {
     return {
