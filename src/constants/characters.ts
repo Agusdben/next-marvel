@@ -1,8 +1,8 @@
 import { CharacterUriParams } from '@/types/character'
+import { BASIC_PARAMS } from '.'
 
 export const CHARACTER_URL_PARAMS: CharacterUriParams = {
-  offset: 0,
-  limit: 50,
+  ...BASIC_PARAMS,
   orderBy: 'name',
   modifiedSince: ''
 }

@@ -13,6 +13,11 @@ export interface Url {
   url: string
 }
 
+export interface BasicUrlParams {
+  offset: number
+  limit: number
+}
+
 export interface ImgToCarousel {
   title: string
   url: string
@@ -31,10 +36,10 @@ export interface Thumbnail {
 }
 
 export interface ApiData {
-  offset: string
-  limit: string
-  total: string
-  count: string
+  offset: number
+  limit: number
+  total: number
+  count: number
 }
 
 export interface ApiRoot {

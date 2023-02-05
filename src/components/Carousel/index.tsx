@@ -53,7 +53,7 @@ const Carousel = ({ images, imgWidth }: Props) => {
         {images.map(img => {
           return (
             <div
-              key={img.alt}
+              key={img.url}
               className='relative aspect-[9/16]'
               style={{ minWidth: imgWidth, maxHeight: imgWidth * 1.77 }}
             >

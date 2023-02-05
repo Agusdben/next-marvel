@@ -1,10 +1,9 @@
 import AppLayout from '@/components/AppLayout'
 import Button from '@/components/Button'
 import CharactersList from '@/components/CharactersList'
-import SearchForm from '@/components/SearchForm'
+import SearchCharacters from '@/components/SearchCharacters'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import useSearchMore from '@/hooks/useSearchMore'
-import useSearchRoute from '@/hooks/useSearchRoute'
 import { getCharacters } from '@/services/Characters'
 import { Character } from '@/types/character'
 import { GetStaticProps } from 'next'
@@ -12,20 +11,21 @@ import React, { useState } from 'react'
 
 interface Props {
   char: Character[]
+  totalResults: number
 }
 
 interface States {
   characters: Character[]
 }
 
-const Characters = ({ char }: Props) => {
-  const { handleSearch } = useSearchRoute({ baseRoute: '/characters/search' })
-  const { offset, hasMore, setLimitResultsReached, increaseOffset } =
-    useSearchMore({
-      initialOffset: CHARACTER_URL_PARAMS.offset,
-      initialHasMore: char.length >= CHARACTER_URL_PARAMS.limit
-    })
+const Characters = ({ char, totalResults }: Props) => {
   const [characters, setCharacters] = useState<States['characters']>(char)
+  const { offset, hasMore, increaseOffset } = useSearchMore({
+    initialOffset: CHARACTER_URL_PARAMS.offset,
+    initialHasMore: char.length >= CHARACTER_URL_PARAMS.limit,
+    currentTotalResults: characters.length,
+    totalResults
+  })
 
   const handleLoadMore = async () => {
     if (!hasMore) return
@@ -39,8 +39,6 @@ const Characters = ({ char }: Props) => {
 
     const newCharacters = response.data.results
 
-    if (!newCharacters.length) setLimitResultsReached()
-
     setCharacters(prevChar => prevChar.concat(newCharacters))
 
     increaseOffset()
@@ -50,7 +48,7 @@ const Characters = ({ char }: Props) => {
     <AppLayout
       headTitle={`characters results: ${characters.length} | Next Marvel`}
     >
-      <SearchForm onSubmit={handleSearch} />
+      <SearchCharacters />
       <CharactersList characters={characters} />
       {hasMore && (
         <div className='m-auto'>
@@ -73,7 +71,8 @@ export const getStaticProps: GetStaticProps = async context => {
   const characters = response.data.results
   return {
     props: {
-      char: characters
+      char: characters,
+      totalResults: response.data.total
     }
   }
 }

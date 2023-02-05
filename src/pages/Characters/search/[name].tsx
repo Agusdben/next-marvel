@@ -18,15 +18,20 @@ interface Props {
 
 const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
   const [characters, setCharacters] = useState<Character[]>([])
-  const { hasMore, offset, increaseOffset, setLimitResultsReached } =
-    useSearchMore({
-      initialHasMore: totalResults > characters.length,
-      initialOffset: params.offset
-    })
+  const { hasMore, offset, increaseOffset, reset } = useSearchMore({
+    initialHasMore: totalResults > characters.length,
+    initialOffset: params.offset,
+    currentTotalResults: characters.length,
+    totalResults
+  })
 
   useEffect(() => {
     setCharacters(chars)
   }, [chars])
+
+  useEffect(() => {
+    reset()
+  }, [reset, searchedName])
 
   const searchMore = async () => {
     if (!hasMore) return
@@ -37,14 +42,10 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
       offset: nextOffset
     })
 
-    if (!newCharacters.data.count) {
-      setLimitResultsReached()
-      return
-    }
-
     setCharacters(lastCharacters =>
       lastCharacters.concat(newCharacters.data.results)
     )
+
     increaseOffset()
   }
 
@@ -60,9 +61,11 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
         </header>
         <CharactersList characters={characters} />
       </section>
-      {hasMore && (
-        <Button type='button' onClick={searchMore} value='Search More' />
-      )}
+      <section className='m-auto'>
+        {hasMore && (
+          <Button type='button' onClick={searchMore} value='Search More' />
+        )}
+      </section>
     </AppLayout>
   )
 }

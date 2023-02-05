@@ -1,4 +1,4 @@
-import { AvailableContent } from '@/types'
+import { AvailableContent, BasicUrlParams } from '@/types'
 import { ApiCharacter, CharacterUriParams } from '@/types/character'
 import { ApiComic } from '@/types/comics'
 import { ApiEvent } from '@/types/events'
@@ -23,12 +23,15 @@ export const getCharacters = (
 
 function getCharacterContent<t> (
   id: number,
-  params: CharacterUriParams,
+  params: BasicUrlParams,
   identifier: AvailableContent['identifier']
 ): Promise<t> {
   const { limit, offset } = params
   const calculatedOffset = limit * offset
-  const paramsUrl = `offset=${calculatedOffset}&limit=${limit}`
+  const paramsUrl = formatObjectToUrlParam({
+    ...params,
+    offset: calculatedOffset
+  })
   const URL = `${CHARACTERS_URL}/${id}/${identifier}?${AUTH_PARAMS}&${paramsUrl}`
   return fetch(URL).then(res => res.json())
 }
@@ -58,28 +61,28 @@ export const searchCharacter = (
 
 export const getComicsOfCharacter = (
   id: number,
-  params: CharacterUriParams
+  params: BasicUrlParams
 ): Promise<ApiComic> => {
   return getCharacterContent<ApiComic>(id, params, 'comics')
 }
 
 export const getSeriesOfCharacter = (
   id: number,
-  params: CharacterUriParams
+  params: BasicUrlParams
 ): Promise<ApiSerie> => {
   return getCharacterContent<ApiSerie>(id, params, 'series')
 }
 
 export const getEventsOfCharacter = (
   id: number,
-  params: CharacterUriParams
+  params: BasicUrlParams
 ): Promise<ApiEvent> => {
   return getCharacterContent<ApiEvent>(id, params, 'events')
 }
 
 export const getStoriesOfCharacter = (
   id: number,
-  params: CharacterUriParams
+  params: BasicUrlParams
 ): Promise<ApiStorie> => {
   return getCharacterContent<ApiStorie>(id, params, 'stories')
 }

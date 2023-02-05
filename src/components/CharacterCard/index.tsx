@@ -10,7 +10,7 @@ interface Props {
 
 const CharacterCard = ({ character }: Props) => {
   return (
-    <article className='relative w-[300px] h-[400px] overflow-hidden rounded-md text-white m-auto'>
+    <article className='relative w-[300px] h-full overflow-hidden rounded-md text-white m-auto'>
       <Image
         className='w-auto h-full object-cover object-left absolute top-0 left-0'
         alt={`Marvel character named ${character.name}`}

@@ -1,5 +1,6 @@
 import AppLayout from '@/components/AppLayout'
 import Carousel from '@/components/Carousel'
+import { BASIC_PARAMS } from '@/constants'
 import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import * as characterServices from '@/services/Characters'
 import { AvailableContent } from '@/types'
@@ -33,7 +34,6 @@ const CharacterPage = ({
   events,
   stories
 }: Props) => {
-  console.log(stories)
   const contentSections: AvailableContent[] = [
     { identifier: 'comics', items: comics },
     { identifier: 'events', items: events },
@@ -52,7 +52,7 @@ const CharacterPage = ({
     <AppLayout headTitle={`${character.name} | Next Marvel`}>
       <section className='text-white mb-12 p-6 bg-background rounded-md w-full flex flex-col items-center justify-center gap-4 md:gap-6 md:items-stretch md:flex-row md:justify-start'>
         <Image
-          className='w-full aspect-square object-cover md:max-w-sm'
+          className='w-full h-auto object-cover md:max-w-sm'
           src={character.thumbnail.path + '.' + character.thumbnail.extension}
           alt={`Marvel character ${character.name}`}
           width={300}
@@ -67,9 +67,13 @@ const CharacterPage = ({
           <p className='first-letter:ml-5 first-letter:text-xl first-letter:text-primary md:max-w-lg'>
             {character.description || 'No description available'}
           </p>
-          <div className='mt-auto flex gap-4 '>
+          <div className='mt-auto flex text-center gap-4'>
             {linksToContentSection.map(({ href, description }) => (
-              <Link className='hover:text-primary' key={href} href={href}>
+              <Link
+                className='hover:text-primary bg-black px-2 py-3 rounded-md'
+                key={href}
+                href={href}
+              >
                 {description}
               </Link>
             ))}
@@ -124,10 +128,10 @@ export const getStaticProps: GetStaticProps = async context => {
   }
 
   const promises = [
-    characterServices.getComicsOfCharacter(id, CHARACTER_URL_PARAMS),
-    characterServices.getEventsOfCharacter(id, CHARACTER_URL_PARAMS),
-    characterServices.getSeriesOfCharacter(id, CHARACTER_URL_PARAMS),
-    characterServices.getStoriesOfCharacter(id, CHARACTER_URL_PARAMS)
+    characterServices.getComicsOfCharacter(id, BASIC_PARAMS),
+    characterServices.getEventsOfCharacter(id, BASIC_PARAMS),
+    characterServices.getSeriesOfCharacter(id, BASIC_PARAMS),
+    characterServices.getStoriesOfCharacter(id, BASIC_PARAMS)
   ]
 
   const [comicsResponse, eventsResponse, seriesResponse, storiesResponse] =
