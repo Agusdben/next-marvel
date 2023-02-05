@@ -82,7 +82,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
   if (params.nameStartsWith) {
     formatedParams.nameStartsWith = String(params.nameStartsWith)
   }
-
   const response = await searchCharacter(formatedParams)
 
   const characters = response.data.results
@@ -92,7 +91,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
       searchedName: formatedParams.nameStartsWith || '',
       chars: characters,
       totalResults,
-      params
+      params: formatedParams
     }
   }
 }
