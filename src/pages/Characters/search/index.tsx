@@ -52,8 +52,10 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
       <SearchCharacters />
       <section>
         <SectionHeader
-          title={`Results of: "${searchedName}" (${characters.length}/
-            ${totalResults})`}
+          title={`${
+            searchedName ? `Results of: "${searchedName}"` : 'All characters'
+          }  (${characters.length}/
+          ${totalResults})`}
         />
         <CharactersList characters={characters} />
       </section>
