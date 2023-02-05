@@ -2,13 +2,21 @@ import { CHARACTER_URL_PARAMS } from '@/constants/characters'
 import useSearchRoute from '@/hooks/useSearchRoute'
 import { CharacterUriParams } from '@/types/character'
 import { formatObjectToUrlParam } from '@/utiles'
+import { useRouter } from 'next/router'
 import React, { useState } from 'react'
 import Button from '../Button'
 import SearchForm from '../SearchForm'
 import Select from '../Select'
 
 const SearchCharacters = () => {
-  const [params, setPrams] = useState<CharacterUriParams>(CHARACTER_URL_PARAMS)
+  const router = useRouter()
+  const [params, setPrams] = useState<CharacterUriParams>({
+    limit: Number(router.query.limit) || CHARACTER_URL_PARAMS.limit,
+    modifiedSince:
+      router.query.modifiedSince || CHARACTER_URL_PARAMS.modifiedSince,
+    offset: Number(router.query.offset) || CHARACTER_URL_PARAMS.offset,
+    orderBy: router.query.orderBy || CHARACTER_URL_PARAMS.orderBy
+  })
   const { handleSearch } = useSearchRoute({
     baseRoute: '/characters/search'
   })

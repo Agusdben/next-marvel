@@ -17,23 +17,23 @@ const useSearchMore = ({
   const [hasMore, setHasMore] = useState<boolean>(initialHasMore)
 
   useEffect(() => {
-    currentTotalResults === totalResults && setHasMore(false)
+    const endResults = () => {
+      setHasMore(false)
+      setOffset(0)
+    }
+
+    const continueSearching = () => setHasMore(true)
+    currentTotalResults === totalResults ? endResults() : continueSearching()
   }, [currentTotalResults, totalResults])
 
   const increaseOffset = () => {
-    setOffset(offset + 1)
-  }
-
-  const reset = () => {
-    setHasMore(initialHasMore)
-    setOffset(initialOffset)
+    setOffset(prev => prev + 1)
   }
 
   return {
     offset,
     hasMore,
-    increaseOffset,
-    reset
+    increaseOffset
   }
 }
 

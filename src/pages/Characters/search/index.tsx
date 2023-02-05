@@ -19,9 +19,9 @@ interface Props {
 
 const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
   const [characters, setCharacters] = useState<Character[]>([])
-  const { hasMore, offset, increaseOffset, reset } = useSearchMore({
+  const { hasMore, offset, increaseOffset } = useSearchMore({
     initialHasMore: totalResults > characters.length,
-    initialOffset: params.offset,
+    initialOffset: 0,
     currentTotalResults: characters.length,
     totalResults
   })
@@ -30,14 +30,11 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
     setCharacters(chars)
   }, [chars])
 
-  useEffect(() => {
-    reset()
-  }, [reset, searchedName])
-
   const searchMore = async () => {
     if (!hasMore) return
 
     const nextOffset = offset + 1
+
     const newCharacters = await searchCharacter({
       ...params,
       offset: nextOffset
@@ -64,6 +61,7 @@ const SearchByName = ({ searchedName, chars, totalResults, params }: Props) => {
         {hasMore && (
           <Button type='button' onClick={searchMore} value='Search More' />
         )}
+        {!hasMore && <p>End of results</p>}
       </section>
     </AppLayout>
   )
