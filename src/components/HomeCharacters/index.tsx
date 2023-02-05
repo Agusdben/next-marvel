@@ -9,11 +9,11 @@ interface Props {
 
 const HomeCharacters = ({ characters }: Props) => {
   return (
-    <article className='flex flex-col gap-2 w-full items-center md:flex-row md:justify-between'>
+    <article className='flex flex-col gap-3 w-full items-center md:flex-row md:justify-between'>
       {characters.map(c => (
         <div
           key={c.name}
-          className='relative w-full overflow-hidden [&_a]:hidden [&_a]:hover:block h-20 hover:h-96 hover:transition-transform md:h-96 md:hover:scale-110'
+          className='relative w-full overflow-hidden [&_a]:hidden [&_a]:hover:block h-20 hover:h-96 hover:transition-transform md:h-96 md:hover:scale-105'
         >
           <div className='p-2 relative z-10 h-full text-white bg-black bg-opacity-70 flex flex-col justify-between items-center hover:bg-opacity-0'>
             <p className='text-2xl text-left mr-auto'>{c.name}</p>

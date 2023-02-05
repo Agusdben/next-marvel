@@ -74,17 +74,17 @@ const SearchCharacters = () => {
           onChange={handleSelect}
           options={['name', '-name', 'modified', '-modified']}
         />
-        <div className='flex flex-col p-2 gap-1 items-center justify-center bg-primary rounded-md'>
+        <div className='flex flex-col gap-1 text-xs text-center text-primary p-2 rounded-md'>
           <label htmlFor='modifiedSince'>Modified Since</label>
           <input
-            className='px-1'
+            className='px-1 text-black'
             onChange={handleModifiedSince}
             type={'date'}
             value={params.modifiedSince}
             name='modifiedSince'
           />
         </div>
-        <div className='mt-auto'>
+        <div className='my-auto'>
           <Button type='button' onClick={resetParams} value='Reset' />
         </div>
       </article>

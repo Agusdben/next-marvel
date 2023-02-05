@@ -10,9 +10,14 @@ interface Props {
 
 const Select = ({ options, name, onChange, value, label }: Props) => {
   return (
-    <div className='flex flex-col gap-1 items-center bg-primary rounded-md p-2'>
+    <div className='flex flex-col gap-1 text-xs text-center text-primary p-2 rounded-md'>
       <label htmlFor={name}>{label}</label>
-      <select name={name} value={value} onChange={onChange}>
+      <select
+        className='text-black'
+        name={name}
+        value={value}
+        onChange={onChange}
+      >
         {options.map(val => (
           <option key={val} value={val}>
             {val}
