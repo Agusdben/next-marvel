@@ -8,19 +8,19 @@ export const ROUTES = [
     value: 'Characters'
   },
   {
-    href: '#',
+    href: '/comics',
     value: 'Comics'
   },
   {
-    href: '#',
+    href: '/series',
     value: 'Series'
   },
   {
-    href: '#',
+    href: '/stories',
     value: 'Stories'
   },
   {
-    href: '#',
+    href: '/events',
     value: 'Events'
   }
 ]

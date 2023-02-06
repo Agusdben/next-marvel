@@ -1,26 +1,18 @@
 import { Character } from '@/types/character'
 import React from 'react'
+import ListTitled from '../ListTitled'
 interface Props {
   character: Character
 }
 const CharacterSumary = ({ character }: Props) => {
   const { comics, series, stories, events } = character
-  const sumary: { [key: string]: number } = {
-    comics: comics.available,
-    series: series.available,
-    stories: stories.available,
-    events: events.available
+  const sumary: { [key: string]: string } = {
+    comics: String(comics.available),
+    series: String(series.available),
+    stories: String(stories.available),
+    events: String(events.available)
   }
-  return (
-    <div>
-      {Object.entries(sumary).map(([key, value]) => (
-        <div key={key} className='p-2'>
-          <p>{key}</p>
-          <span>{value}</span>
-        </div>
-      ))}
-    </div>
-  )
+  return <ListTitled title={character.name} obj={sumary} />
 }
 
 export default CharacterSumary
