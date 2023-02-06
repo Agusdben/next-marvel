@@ -13,7 +13,8 @@ const CardContainer = ({ img, alt, href, children }: Props) => {
   return (
     <div className='relative w-[300px] h-full overflow-hidden rounded-md text-white m-auto'>
       <Image
-        className='w-full h-full object-cover object-left absolute top-0 left-0'
+        priority={true}
+        className='w-full h-full object-cover object-left absolute top-0 left-0 bottom-0 right-0 m-auto'
         alt={alt}
         src={img}
         width={300}

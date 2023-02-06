@@ -19,4 +19,4 @@ const ComicCard = ({ comic }: Props) => {
   )
 }
 
-export default ComicCard
+export default React.memo(ComicCard)
