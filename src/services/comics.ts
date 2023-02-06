@@ -2,6 +2,7 @@ import { BasicUrlParams } from '@/types'
 import { ApiComic } from '@/types/comics'
 import { ENV, AUTH_PARAMS } from '@/utiles/apiConfig'
 import { formatObjectToUrlParam } from '@/utiles/index'
+
 const COMICS_URL = `${ENV.API_URL}/comics`
 
 export const getOneComic = (id: number): Promise<ApiComic> => {

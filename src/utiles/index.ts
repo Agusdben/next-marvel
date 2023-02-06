@@ -18,7 +18,9 @@ export function extractImgToCarouselFrom (
   })
 }
 
-export function formatObjectToUrlParam (obj) {
+export function formatObjectToUrlParam (obj: {
+  [key: string]: string | number
+}) {
   return Object.entries(obj)
     .map(([key, value]) => `${key}=${value}`)
     .join('&')
